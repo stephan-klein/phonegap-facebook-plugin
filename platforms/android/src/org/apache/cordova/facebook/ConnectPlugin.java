@@ -625,7 +625,9 @@ public class ConnectPlugin extends CordovaPlugin {
     }
 
     private void getUserInfo(final Session session, final Request.GraphUserCallback graphUserCb) {
+        Log.d(TAG, "getUserInfo");
         if (cordova != null) {
+            Log.d(TAG, "cordova is available, starting request");
             Request.newMeRequest(session, graphUserCb).executeAsync();
         }
     }
@@ -695,12 +697,15 @@ public class ConnectPlugin extends CordovaPlugin {
             // Check if the session is open
             if (state.isOpened() || state == SessionState.OPENED_TOKEN_UPDATED) {
                 if (loginContext != null) {
+                    Log.d(TAG, "Login Context is available");
                     // Get user info
                     getUserInfo(session, new Request.GraphUserCallback() {
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
+                            Log.d(TAG, "Graph Request Completed");
                             // Create a new result with response data
                             if (loginContext != null) {
+                                Log.d(TAG, "Login Context is available");
                                 if (response.getError() != null) {
                                     loginContext.error(getFacebookRequestErrorResponse(response.getError()));
                                 } else {
@@ -711,12 +716,14 @@ public class ConnectPlugin extends CordovaPlugin {
                                     loginContext = null;
                                 }
                             } else {
+                                Log.d(TAG, "Login Context is unavailable");
                                 // Just update the userID in case we force quit the application before
                                 userID = user.getId();
                             }
                         }
                     });
                 } else if (graphContext != null) {
+                    Log.d(TAG, "Login Context is unavailable");
                     // Make the graph call
                     makeGraphCall();
                 }
