@@ -684,7 +684,7 @@ public class ConnectPlugin extends CordovaPlugin {
      * Handles session state changes
      */
     private void onSessionStateChange(SessionState state, Exception exception) {
-        Log.d(TAG, "onSessionStateChange:" + state.toString());
+        Log.d(TAG, "onSessionStateChange:" + state.toString() + ", isOpened: " + state.isOpened());
         if (exception != null && exception instanceof FacebookOperationCanceledException) {
             // only handle FacebookOperationCanceledException to support
             // SDK recovery behavior triggered by getUserInfo
@@ -693,7 +693,7 @@ public class ConnectPlugin extends CordovaPlugin {
         } else {
             final Session session = Session.getActiveSession();
             // Check if the session is open
-            if (state.isOpened()) {
+            if (state.isOpened() || state == SessionState.OPENED_TOKEN_UPDATED) {
                 if (loginContext != null) {
                     // Get user info
                     getUserInfo(session, new Request.GraphUserCallback() {
