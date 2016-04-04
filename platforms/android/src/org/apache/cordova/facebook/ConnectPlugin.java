@@ -136,6 +136,7 @@ public class ConnectPlugin extends CordovaPlugin {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.d(TAG, "activity result in plugin: requestCode(" + requestCode + "), resultCode(" + resultCode + ")");
         if (trackingPendingCall) {
+             Log.d(TAG, "Pending Call");
             uiHelper.onActivityResult(requestCode, resultCode, intent, new FacebookDialog.Callback() {
                 @Override
                 public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
@@ -150,6 +151,7 @@ public class ConnectPlugin extends CordovaPlugin {
                 }
             });
         } else {
+            Log.d(TAG, "No Pending Call");
             Session session = Session.getActiveSession();
             if (session != null && loginContext != null) {
                 session.onActivityResult(cordova.getActivity(), requestCode, resultCode, intent);
@@ -185,6 +187,7 @@ public class ConnectPlugin extends CordovaPlugin {
 
             // Check if the active session is open
             if (checkActiveSession(session)) {
+                Log.d(TAG, "Active Session");
                 // Reauthorize flow
                 boolean publishPermissions = false;
                 boolean readPermissions = false;
@@ -223,6 +226,7 @@ public class ConnectPlugin extends CordovaPlugin {
                     }
                 }
             } else {
+                 Log.d(TAG, "No Active Session");
                 // Initial login, build a new session open request.
 
                 // - Create a new session and set the application ID
@@ -588,6 +592,7 @@ public class ConnectPlugin extends CordovaPlugin {
         // will include the resulting request id. For a feed dialog, the "post_id"
         // parameter will include the resulting post id.
         // Note: If the user clicks on the Cancel button, the parameter will be empty
+         Log.d(TAG, "Handle Success");
         if (values.size() > 0) {
             JSONObject response = new JSONObject();
             try {
