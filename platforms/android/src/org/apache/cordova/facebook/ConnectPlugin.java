@@ -181,9 +181,11 @@ public class ConnectPlugin extends CordovaPlugin {
 
             // Set a pending callback to cordova
             loginContext = callbackContext;
+            Log.d(TAG, "loginContext: "+loginContext);
             PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
             pr.setKeepCallback(true);
             loginContext.sendPluginResult(pr);
+            Log.d(TAG, "loginContext: "+loginContext);
 
             // Check if the active session is open
             if (checkActiveSession(session)) {
